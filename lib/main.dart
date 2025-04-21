@@ -28,6 +28,7 @@ class CodeEditorPage extends StatefulWidget {
 
 class _CodeEditorPageState extends State<CodeEditorPage> {
   late CodeController _controller;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -38,6 +39,7 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
   @override
   void dispose() {
     _controller.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -56,19 +58,18 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
       ),
       body: Row(
         children: [
-          // Sidebar: files
-          Container(
-            width: 200,
-            color: Colors.grey[900],
-            child: const Center(
-              child: Text('Explorer', style: TextStyle(color: Colors.white70)),
-            ),
-          ),
           // Editor area
           Expanded(
-            child: CodeField(
-              controller: _controller,
-              textStyle: const TextStyle(fontFamily: 'SourceCodePro'),
+            child: Scrollbar(
+              controller: _scrollController,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: CodeField(
+                  controller: _controller,
+                  textStyle: const TextStyle(fontFamily: 'SourceCodePro'),
+                ),
+              ),
             ),
           ),
         ],
