@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:code_text_field/code_text_field.dart';
 import 'package:highlight/languages/dart.dart';
+import 'package:flutter_highlight/themes/dracula.dart';
 
 void main() {
   runApp(const CodeEditorApp());
@@ -65,9 +66,12 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
               thumbVisibility: true,
               child: SingleChildScrollView(
                 controller: _scrollController,
-                child: CodeField(
-                  controller: _controller,
-                  textStyle: const TextStyle(fontFamily: 'SourceCodePro'),
+                child: CodeTheme(
+                  data: CodeThemeData(styles: draculaTheme),
+                  child: CodeField(
+                    controller: _controller,
+                    textStyle: const TextStyle(fontFamily: 'SourceCodePro'),
+                  ),
                 ),
               ),
             ),
