@@ -3,6 +3,7 @@ import 'package:flutter_highlight/themes/dracula.dart';
 import 'package:pocket_studio_code/widgets/code_editor_area.dart';
 import 'package:pocket_studio_code/widgets/layout/app_bar.dart';
 import 'package:pocket_studio_code/widgets/layout/bottom_bar.dart';
+import 'package:pocket_studio_code/widgets/layout/side_bar.dart';
 
 class CodeEditorField extends StatefulWidget {
   const CodeEditorField({super.key});
@@ -13,9 +14,9 @@ class CodeEditorField extends StatefulWidget {
 
 class CodeEditorFieldState extends State<CodeEditorField> {
   int _selectedIndex = 0;
+  int _selectedSidebarIndex = 0;
   int tabCount = 6;
   int notificationCount = 2;
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -36,38 +37,16 @@ class CodeEditorFieldState extends State<CodeEditorField> {
     }
   }
 
+  void handleSidebarItemTap(int index) {
+    setState(() {
+      _selectedSidebarIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        // Add a ListView to the drawer. This ensures the user can scroll
-        // through the options in the drawer if there isn't enough vertical
-        // space to fit everything.
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text('Drawer Header'),
-            ),
-            ListTile(
-              title: const Text('Item 1'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-            ListTile(
-              title: const Text('Item 2'),
-              onTap: () {
-                // Update the state of the app.
-                // ...
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: sideBar(context, _selectedSidebarIndex, handleSidebarItemTap),
       backgroundColor: draculaTheme['root']?.backgroundColor ?? Colors.black,
       appBar: appBar(notificationCount, _saveCode, context),
       body: Column(children: [CodeEditorArea()]),
