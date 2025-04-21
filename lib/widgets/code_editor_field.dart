@@ -7,14 +7,15 @@ class CodeEditorField extends StatefulWidget {
   const CodeEditorField({super.key});
 
   @override
-  _CodeEditorFieldState createState() => _CodeEditorFieldState();
+  CodeEditorFieldState createState() => CodeEditorFieldState();
 }
 
-class _CodeEditorFieldState extends State<CodeEditorField> {
+class CodeEditorFieldState extends State<CodeEditorField> {
   late CodeController _controller;
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode(); // ← FocusNode añadido
-
+  int _selectedIndex = 0;
+  int tabCount = 6;
   @override
   void initState() {
     super.initState();
@@ -29,36 +30,135 @@ class _CodeEditorFieldState extends State<CodeEditorField> {
     super.dispose();
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    // Simula la acción para cada botón
+    switch (index) {
+      case 0:
+        print("Botón 0 presionado");
+        break;
+      case 1:
+        print("Botón 1 presionado");
+        break;
+      case 2:
+        print("Botón 2 presionado");
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: draculaTheme['root']?.backgroundColor ?? Colors.black,
       appBar: AppBar(
-        title: const Text('File Name.dart'),
+        title: Tooltip(
+          message: 'Nombre del archivo abierto.dart',
+          waitDuration: Duration(milliseconds: 500),
+          child: TextButton(
+            onPressed: () {},
+            child: const Text(
+              'Nombre del archivo abierto.dart',
+              style: TextStyle(color: Colors.white),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          icon: Badge.count(
+            count: tabCount,
+            offset: const Offset(4, 12),
+            child: const Icon(Icons.menu),
+          ),
+          onPressed: () {},
+          tooltip: 'Opciones',
+        ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.undo),
+            onPressed: () {},
+            tooltip: 'Retroceder',
+          ),
+          IconButton(
+            icon: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(3.1416), // π radianes = 180 grados
+              child: const Icon(Icons.undo),
+            ),
+            onPressed: () {},
+            tooltip: 'Avanzar',
+          ),
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: _saveCode,
-            tooltip: 'Save',
+            tooltip: 'Guardar',
           ),
         ],
       ),
       body: Column(
         children: [
-          // 2. Expanded para llenar todo el espacio
           Expanded(
             child: CodeTheme(
               data: CodeThemeData(styles: draculaTheme),
               child: CodeField(
                 controller: _controller,
                 focusNode: _focusNode,
-                // 3. Expansión nativa y scroll interno
                 expands: true,
                 minLines: null,
                 maxLines: null,
                 textStyle: const TextStyle(fontFamily: 'SourceCodePro'),
               ),
             ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.grey[900],
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Colors.grey[500],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.terminal),
+            label: 'Terminal',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Buscar'),
+          BottomNavigationBarItem(
+            icon: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent, // Sin relleno
+                    border: Border.all(
+                      color:
+                          _selectedIndex == 2
+                              ? Colors.white
+                              : Colors.grey, // Color del borde
+                      width: 2, // Grosor del borde
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      6,
+                    ), // Bordes redondeados
+                  ),
+                ),
+
+                Text(
+                  '$tabCount', // Asegúrate de definir esta variable (ej: 3)
+                  style: TextStyle(
+                    color: _selectedIndex == 2 ? Colors.white : Colors.grey,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            label: 'Pestañas',
           ),
         ],
       ),
