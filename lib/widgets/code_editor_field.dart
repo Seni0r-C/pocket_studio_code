@@ -61,7 +61,7 @@ class CodeEditorFieldState extends State<CodeEditorField> {
             onPressed: () {},
             child: const Text(
               'Nombre del archivo abierto.dart',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white, fontSize: 16),
               overflow: TextOverflow.ellipsis,
             ),
           ),
