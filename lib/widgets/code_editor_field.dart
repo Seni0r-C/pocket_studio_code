@@ -3,6 +3,7 @@ import 'package:flutter_highlight/themes/dracula.dart';
 import 'package:pocket_studio_code/widgets/code_editor_area.dart';
 import 'package:pocket_studio_code/widgets/layout/app_bar.dart';
 import 'package:pocket_studio_code/widgets/layout/bottom_bar.dart';
+import 'package:pocket_studio_code/widgets/layout/shortcut_panel.dart';
 import 'package:pocket_studio_code/widgets/layout/side_bar.dart';
 
 class CodeEditorField extends StatefulWidget {
@@ -49,7 +50,12 @@ class CodeEditorFieldState extends State<CodeEditorField> {
       drawer: sideBar(context, _selectedSidebarIndex, handleSidebarItemTap),
       backgroundColor: draculaTheme['root']?.backgroundColor ?? Colors.black,
       appBar: appBar(notificationCount, _saveCode, context),
-      body: Column(children: [CodeEditorArea()]),
+      body: Stack(
+        children: [
+          Column(children: const [CodeEditorArea()]),
+          ShortcutPanel(tabCount: tabCount),
+        ],
+      ),
       bottomNavigationBar: bottomBar(tabCount, _onItemTapped, _selectedIndex),
     );
   }

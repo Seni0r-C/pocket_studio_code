@@ -8,6 +8,7 @@ Drawer sideBar(
   // Listas de iconos, títulos y contenidos para el Drawer
   final List<IconData> icons = [
     Icons.file_copy_outlined,
+    Icons.search,
     Icons.timeline,
     Icons.bug_report,
     Icons.extension,
@@ -15,6 +16,7 @@ Drawer sideBar(
 
   final List<String> titles = [
     'Explorador',
+    'Buscar',
     'Control de código fuente',
     'Ejecución y depuración',
     'Extensiones',
@@ -23,7 +25,7 @@ Drawer sideBar(
   final List<Widget> contents = const [
     Padding(
       padding: EdgeInsets.all(16),
-      child: Text('Contenido de Inicio', style: TextStyle(fontSize: 18)),
+      child: Text('Contenido de Explorador', style: TextStyle(fontSize: 18)),
     ),
     Padding(
       padding: EdgeInsets.all(16),
@@ -31,7 +33,17 @@ Drawer sideBar(
     ),
     Padding(
       padding: EdgeInsets.all(16),
-      child: Text('Contenido de Ajustes', style: TextStyle(fontSize: 18)),
+      child: Text(
+        'Contenido de Control de código',
+        style: TextStyle(fontSize: 18),
+      ),
+    ),
+    Padding(
+      padding: EdgeInsets.all(16),
+      child: Text(
+        'Contenido de Ejecución y depuración',
+        style: TextStyle(fontSize: 18),
+      ),
     ),
     Padding(
       padding: EdgeInsets.all(16),
@@ -72,7 +84,7 @@ Drawer sideBar(
               const Spacer(),
 
               Tooltip(
-                message: 'Cuenta',
+                message: 'Cuentas',
                 child: IconButton(
                   icon: const Icon(Icons.person),
                   onPressed: () {
@@ -82,7 +94,7 @@ Drawer sideBar(
               ),
 
               Tooltip(
-                message: 'Configuración',
+                message: 'Administrar',
                 child: IconButton(
                   icon: const Icon(Icons.settings),
                   onPressed: () {

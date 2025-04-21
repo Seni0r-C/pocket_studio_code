@@ -38,11 +38,7 @@ AppBar appBar(
         tooltip: 'Retroceder',
       ),
       IconButton(
-        icon: Transform(
-          alignment: Alignment.center,
-          transform: Matrix4.rotationY(3.1416), // π radianes = 180 grados
-          child: const Icon(Icons.undo),
-        ),
+        icon: const Icon(Icons.redo),
         onPressed: () {},
         tooltip: 'Avanzar',
       ),
