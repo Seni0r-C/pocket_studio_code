@@ -12,7 +12,6 @@ class CodeEditorApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Code Editor',
       theme: ThemeData.dark(),
       home: const CodeEditorField(),
     );

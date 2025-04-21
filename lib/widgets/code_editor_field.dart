@@ -15,6 +15,7 @@ class CodeEditorFieldState extends State<CodeEditorField> {
   int _selectedIndex = 0;
   int tabCount = 6;
   int notificationCount = 2;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -38,8 +39,37 @@ class CodeEditorFieldState extends State<CodeEditorField> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                // Update the state of the app.
+                // ...
+              },
+            ),
+          ],
+        ),
+      ),
       backgroundColor: draculaTheme['root']?.backgroundColor ?? Colors.black,
-      appBar: appBar(notificationCount, _saveCode),
+      appBar: appBar(notificationCount, _saveCode, context),
       body: Column(children: [CodeEditorArea()]),
       bottomNavigationBar: bottomBar(tabCount, _onItemTapped, _selectedIndex),
     );

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-AppBar appBar(int notificationCount, void Function() saveCode) {
+AppBar appBar(
+  int notificationCount,
+  void Function() saveCode,
+  BuildContext context,
+) {
   return AppBar(
     title: Tooltip(
       message: 'Nombre del archivo abierto.dart',
@@ -14,14 +18,18 @@ AppBar appBar(int notificationCount, void Function() saveCode) {
         ),
       ),
     ),
-    leading: IconButton(
-      icon: Badge.count(
-        count: notificationCount,
-        offset: const Offset(4, 12),
-        child: const Icon(Icons.menu),
-      ),
-      onPressed: () {},
-      tooltip: 'Opciones',
+    leading: Builder(
+      builder: (context) {
+        return IconButton(
+          icon: Badge.count(
+            count: notificationCount,
+            offset: const Offset(4, 12),
+            child: const Icon(Icons.menu),
+          ),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+          tooltip: 'Opciones',
+        );
+      },
     ),
     actions: [
       IconButton(
