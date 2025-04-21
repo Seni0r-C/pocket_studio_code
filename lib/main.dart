@@ -13,6 +13,7 @@ class CodeEditorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Code Editor',
       theme: ThemeData.dark(),
       home: const CodeEditorPage(),
@@ -30,6 +31,7 @@ class CodeEditorPage extends StatefulWidget {
 class _CodeEditorPageState extends State<CodeEditorPage> {
   late CodeController _controller;
   final ScrollController _scrollController = ScrollController();
+  final FocusNode _focusNode = FocusNode(); // ← FocusNode añadido
 
   @override
   void initState() {
@@ -41,14 +43,16 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
   void dispose() {
     _controller.dispose();
     _scrollController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: draculaTheme['root']?.backgroundColor ?? Colors.black,
       appBar: AppBar(
-        title: const Text('Pocket Studio Code'),
+        title: const Text('File Name.dart'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
@@ -57,22 +61,20 @@ class _CodeEditorPageState extends State<CodeEditorPage> {
           ),
         ],
       ),
-      body: Row(
+      body: Column(
         children: [
-          // Editor area
+          // 2. Expanded para llenar todo el espacio
           Expanded(
-            child: Scrollbar(
-              controller: _scrollController,
-              thumbVisibility: true,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: CodeTheme(
-                  data: CodeThemeData(styles: draculaTheme),
-                  child: CodeField(
-                    controller: _controller,
-                    textStyle: const TextStyle(fontFamily: 'SourceCodePro'),
-                  ),
-                ),
+            child: CodeTheme(
+              data: CodeThemeData(styles: draculaTheme),
+              child: CodeField(
+                controller: _controller,
+                focusNode: _focusNode,
+                // 3. Expansión nativa y scroll interno
+                expands: true,
+                minLines: null,
+                maxLines: null,
+                textStyle: const TextStyle(fontFamily: 'SourceCodePro'),
               ),
             ),
           ),
